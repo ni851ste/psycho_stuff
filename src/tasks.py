@@ -6,7 +6,7 @@ def even_left_odd_right(n):
     out = ""
     # TODO not sure if range to n or n+1
     # range operator with step size of 2
-    for i in range(0, n+ 1, 2):
+    for i in range(0, n + 1, 2):
         out += str(i) + " "
         if i == n:
             break
@@ -56,7 +56,7 @@ def unique_digit_dict(n1, n2):
 
 
 # Q5
-def divide_me (inlist, den):
+def divide_me(inlist, den):
     # maybe this is a bit too hacky, but I like it a lot and
     # it is really clean, just ask me and I will explain it :)
     return list(map(lambda x: x / den, inlist))
@@ -94,7 +94,7 @@ def grid_sum_prod(n):
         for j in range(n):
             # Fill with values from 0 to 1
             matrix[i].append(np.random.randint(2))
-    #print(matrix)
+    # print(matrix)
 
     out = []
     for col_row_index in range(n):
@@ -107,11 +107,11 @@ def grid_sum_prod(n):
             col_sum += matrix[row][col_row_index]
 
         out.append(row_sum * col_sum)
-        #print("Row sum: " + str(col_row_index) + ": " + str(row_sum))
-        #print("Col sum: " + str(col_row_index) + ": " + str(col_sum))
+        # print("Row sum: " + str(col_row_index) + ": " + str(row_sum))
+        # print("Col sum: " + str(col_row_index) + ": " + str(col_sum))
 
     return out
-    
+
 
 # Q8
 def eight_bits():
@@ -136,7 +136,7 @@ def min_mac_range(*argv):
 def add_me(n):
     summands = []
     for i in range(1, n + 1):
-        summands.append(int(str(n)*i))
+        summands.append(int(str(n) * i))
 
     sum_var = 0
     for element in summands:
@@ -148,10 +148,9 @@ def add_me(n):
 def remove_lower_and_higher(inlist, low, high):
     # Filter filters the elements where the statement is false
     # true filters will remain
-    #w_o_low = list(filter(lambda number: number >= low, inlist))
-    #w_o_high = list(filter(lambda number: number <= high, w_o_low))
-    #return w_o_high
-
+    # w_o_low = list(filter(lambda number: number >= low, inlist))
+    # w_o_high = list(filter(lambda number: number <= high, w_o_low))
+    # return w_o_high
 
     return list(filter(lambda number: number <= high, list(filter(lambda number: number >= low, inlist))))
 
@@ -162,7 +161,7 @@ def balanced_brackets(instr):
     for char in instr:
         if char == "(":
             open_brackets += 1
-        if char == ")" :
+        if char == ")":
             open_brackets -= 1
 
     # return the bool directly and not a previous var
@@ -172,23 +171,101 @@ def balanced_brackets(instr):
 # Q13
 def count_me(instr):
     # TODO dont understand what is meant with capital letters
-    return
+    # Capital letters will be ignored
+    char_dict = {}
+    for char in instr:
+        if char.isupper():
+            continue
+
+        if char not in char_dict:
+            char_dict[char] = 1
+        else:
+            char_dict[char] = char_dict[char] + 1
+
+    for key in char_dict:
+        print("Letter: " + key + ", Count: " + str(char_dict[key]))
+
+
+# Q14
+def sum_odd_sum_even(inlist):
+    sum_even = 0
+    sum_odd = 0
+    for element in inlist:
+        if element % 2 == 0:
+            sum_even += element
+        else:
+            sum_odd += element
+    # return odd then even
+    return sum_odd, sum_even
+
+
+# Q15
+def mean_rt_er(rts, errors):
+    mean_rt = sum(rts) / len(rts)
+    error_rate = (sum(errors) / len(errors)) * 100
+
+    print("Mean RT: {:.0f} ms".format(mean_rt))
+    print("Mean ER: {:.1f} %".format(error_rate))
+
+
+# Q16
+def firstname_lastname():
+    # TODO Das Beispiel mit Angela Merkel is einfach falsch lol
+    first_name_vowel_count = 0
+    last_name_vowel_count = 0
+
+    vowels = ['a', 'e', 'i', 'o', 'u']
+
+    in_text = input("Please insert your full name!\n")
+    split_in_text = in_text.split(" ")
+
+    # Small input validation to make sure everything is as intended
+    if len(split_in_text) != 2:
+        print("Error in input data!")
+        return
+
+    # First name validation
+    for char in split_in_text[0]:
+        if char.lower() in vowels:
+            first_name_vowel_count += 1
+
+    # Last name validation
+    for char in split_in_text[1]:
+        if char.lower() in vowels:
+            last_name_vowel_count += 1
+
+    # More vowels in first name
+    if first_name_vowel_count > last_name_vowel_count:
+        return "first"
+    # More in last name
+    elif first_name_vowel_count < last_name_vowel_count:
+        return "second"
+    # Equal
+    else:
+        return "equal"
+
 
 def main():
-    #even_left_odd_right(5)
-    #print(common_values([1, 2, 3], [1, 2, 3], [3, 4, 5]))
-    #print(only_the_last(10, 10))
-    #print(unique_digit_dict(122, 124))
-    #print(divide_me([0, 1, 2, 3, 4, 5], 2))
+    # even_left_odd_right(5)
+    # print(common_values([1, 2, 3], [1, 2, 3], [3, 4, 5]))
+    # print(only_the_last(10, 10))
+    # print(unique_digit_dict(122, 124))
+    # print(divide_me([0, 1, 2, 3, 4, 5], 2))
 
-    #print(ndigits_times_nletters(123, "abc"))
-    #print(grid_sum_prod(4))
-    #eight_bits()
-    #print(min_mac_range(10, 2, 99))
-    #print(add_me(4))
+    # print(ndigits_times_nletters(123, "abc"))
+    # print(grid_sum_prod(4))
+    # eight_bits()
+    # print(min_mac_range(10, 2, 99))
+    # print(add_me(4))
 
-    #print(remove_lower_and_higher([1, 3, 2, 19, 23], 3, 20))
-    print(balanced_brackets("((())()))"))
+    # print(remove_lower_and_higher([1, 3, 2, 19, 23], 3, 20))
+    # print(balanced_brackets("((())()))"))
+    # count_me("qaYqy")
+    # print(sum_odd_sum_even([1, 2, 3, 4]))
+    #mean_rt_er([500, 600, 700], [1, 0, 0])
+
+    print(firstname_lastname())
+
     return
 
 
