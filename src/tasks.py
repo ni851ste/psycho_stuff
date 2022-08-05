@@ -1,4 +1,5 @@
 import numpy as np
+import random as rand
 
 
 # Q1
@@ -245,6 +246,73 @@ def firstname_lastname():
         return "equal"
 
 
+# Q17
+def basic_analysis():
+    # TODO datafile is missing
+    return
+
+
+# Q18
+def shuffle_me(inlist):
+    # Not 2 time same string directly after each other
+    target_length = len(inlist) * 20
+    target_list = []
+    index_before = -1
+
+    while True:
+        # Break condition
+        if len(target_list) == target_length:
+            break
+
+        # randint upper border is inclusive, -1 to fix for that
+        i = rand.randint(0, len(inlist) - 1)
+        if i == index_before:
+            continue
+
+        target_list.append(inlist[i])
+        index_before = i
+
+    return target_list
+
+
+# Q19
+def repeated_letter(instr):
+    prev_char = ""
+    for char in instr:
+        # check if char is letter
+        if not char.isalpha():
+            prev_char = ""
+            continue
+        if char == prev_char:
+            return True
+        prev_char = char
+    return False
+
+
+# Q20
+def first_index(inlst):
+    out_dict = {}
+    for i in range(len(inlst)):
+        out_dict[inlst[i]] = i
+    return out_dict
+
+
+# Q21
+def permutation_subset(n1, n2):
+    out_lst = []
+    for i in range(1, n1 + 1):
+        for j in range(1, n2 + 1):
+            if (i + j) % 2 == 0:
+                out_lst.append([i, j])
+    return out_lst
+
+
+# Q22
+def letter_orer(instr, l1, l2):
+    # 3rd example does not make sense, because the second 'A' comes after
+    # a 'B'
+    return False
+
 def main():
     # even_left_odd_right(5)
     # print(common_values([1, 2, 3], [1, 2, 3], [3, 4, 5]))
@@ -262,9 +330,13 @@ def main():
     # print(balanced_brackets("((())()))"))
     # count_me("qaYqy")
     # print(sum_odd_sum_even([1, 2, 3, 4]))
-    #mean_rt_er([500, 600, 700], [1, 0, 0])
+    # mean_rt_er([500, 600, 700], [1, 0, 0])
 
-    print(firstname_lastname())
+    # print(firstname_lastname())
+    # print(shuffle_me(["A", "B", "C", "D", "E"]))
+    # print(repeated_letter("a bc def ghij"))
+    # print(first_index([3, 2, 1]))
+    print(permutation_subset(2,3))
 
     return
 
