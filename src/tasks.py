@@ -381,6 +381,84 @@ def n_repetitions(inlist):
     return out_lst
 
 
+# Q25
+def odd_vowels_upper(instr):
+    # Examples show that this question has inconsistencies
+    # Does the counter reset after every word?
+    # One example makes it seem like it does, the other negates this
+    # ToDo Question apparently unclear
+    # Note: it seems like if there are two spaces between words it works
+    # But the example inputs only have one space
+    vowels = ['a', 'e', 'i', 'o', 'u']
+    out_str = ""
+    i = 0
+
+    for current_char in instr:
+
+        # if vowel and odd position
+        if current_char in vowels and i % 2 == 1:
+            out_str += current_char.upper()
+        elif current_char == ' ':
+            out_str += current_char
+            i = -1
+        else:
+            out_str += current_char
+        i += 1
+
+    return out_str
+
+
+# Q26
+# given function header is wrong, is missing div1 and div2
+def filter_divisitors(inlist, div1, div2):
+    out_lst = []
+    for element in inlist:
+        if (element / div1) % 1 == 0 and (element / div2) % 1 == 0:
+            out_lst.append(element)
+
+    return out_lst
+
+
+# Q27
+def ascii_fun1(n):
+    matrix = []
+
+    # create matrix
+    for i in range(n):
+        matrix.append([])
+        for j in range(n + 1):
+            matrix[i].append([])
+            matrix[i][j] = False
+
+    # half_row_index is an integer that is used to invert the algorithm after
+    # the first half of the shape is drawn
+    half_row_index = int(n/2)
+    # fill matrix
+    for row in range(n):
+        # variable for possible adjustments after inversion of the alg
+        adjusted_row = row
+        if row > half_row_index:
+            # Inversion
+            adjusted_row = (n-1) - row
+
+        for col in range(adjusted_row + 1):
+            matrix[row][col] = True
+            matrix[row][(col * -1) - 1] = True
+
+    # convert matrix to string
+    out_str = ""
+    for row in matrix:
+        for col in row:
+            if col:
+                out_str += "*"
+            else:
+                out_str += " "
+        out_str += "\n"
+
+    # ToDo print to file
+    return out_str
+
+
 def main():
     # even_left_odd_right(5)
     # print(common_values([1, 2, 3], [1, 2, 3], [3, 4, 5]))
@@ -411,6 +489,10 @@ def main():
     # print(letter_order("AB AB", "A", "B"))
     # print(item_distance([1, 2, 3, 1, 3, 2, 1, 1, 3]))
     # print(n_repetitions([1, 1, 3, 2, 2, 1, 2]))
+    # print(odd_vowels_upper("car elephant"))
+
+    # print(filter_divisitors([2, 4, 6, 8], 2, 5))
+    print(ascii_fun1(23))
 
     return
 
