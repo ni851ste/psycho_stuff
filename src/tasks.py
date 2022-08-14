@@ -297,7 +297,8 @@ def repeated_letter(instr):
 def first_index(inlst):
     out_dict = {}
     for i in range(len(inlst)):
-        out_dict[inlst[i]] = i
+        if inlst[i] not in out_dict:
+            out_dict[inlst[i]] = i
     return out_dict
 
 
@@ -312,10 +313,73 @@ def permutation_subset(n1, n2):
 
 
 # Q22
-def letter_orer(instr, l1, l2):
+def letter_order(instr, l1, l2):
     # 3rd example does not make sense, because the second 'A' comes after
     # a 'B'
-    return False
+    # So apparently the rules stated reset for each word
+
+    second_letter_appeared = False
+    for letter in instr:
+        if letter == l2 and not second_letter_appeared:
+            second_letter_appeared = True
+            continue
+
+        if letter == l1 and second_letter_appeared:
+            return False
+
+        # special case space character resets the search
+        if letter == ' ':
+            second_letter_appeared = False
+
+    return True
+
+
+# Q23
+def item_distance(inlist):
+    out_dict = {}
+    range_saver_dic = {}
+    for i in range(len(inlist)):
+        element = inlist[i]
+        # not in dict
+        if element not in out_dict:
+            out_dict[element] = []
+            range_saver_dic[element] = i
+
+        # element already in dict
+        else:
+            # -1 to correct the calculation using the indices
+            distance = (i - 1) - range_saver_dic[element]
+            out_dict[element].append(distance)
+            range_saver_dic[element] = i
+
+    return out_dict
+
+
+# Q24
+def n_repetitions(inlist):
+    out_lst = []
+
+    # use for i because first element is needed for setup
+    current_element = inlist[0]
+    current_element_count = 1
+
+    for i in range(1, len(inlist)):
+        element = inlist[i]
+        # if element is same as element before
+        if element == current_element:
+            current_element_count += 1
+
+        # if element is a different one that before
+        else:
+            out_lst.append(current_element_count)
+            current_element = element
+            current_element_count = 1
+
+    # after iterating through list save for last element aswell
+    out_lst.append(current_element_count)
+
+    return out_lst
+
 
 def main():
     # even_left_odd_right(5)
@@ -337,10 +401,16 @@ def main():
     # mean_rt_er([500, 600, 700], [1, 0, 0])
 
     # print(firstname_lastname())
+    # TODO basic analysis needs to be implemented
+    # basic_analysis()
     # print(shuffle_me(["A", "B", "C", "D", "E"]))
     # print(repeated_letter("a bc def ghij"))
-    # print(first_index([3, 2, 1]))
-    print(permutation_subset(2,3))
+    # print(first_index([3, 2, 1, 3]))
+
+    # print(permutation_subset(2,3))
+    # print(letter_order("AB AB", "A", "B"))
+    # print(item_distance([1, 2, 3, 1, 3, 2, 1, 1, 3]))
+    # print(n_repetitions([1, 1, 3, 2, 2, 1, 2]))
 
     return
 
