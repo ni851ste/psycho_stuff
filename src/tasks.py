@@ -123,12 +123,16 @@ def eight_bits():
 
 # Q9
 def min_mac_range(*argv):
-    numbers = []
-    for arg in argv:
-        numbers.append(arg)
+    min_val = argv[0]
+    max_val = argv[0]
 
-    min_val = min(numbers)
-    max_val = max(numbers)
+    # Don't skip first element in for loop for clean and simple code
+    # performance doesn't matter here
+    for arg in argv:
+        if arg < min_val:
+            min_val = arg
+        if arg > max_val:
+            max_val = arg
 
     return min_val, max_val, max_val - min_val
 
