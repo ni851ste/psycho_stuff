@@ -222,19 +222,29 @@ def firstname_lastname():
     vowels = ['a', 'e', 'i', 'o', 'u']
 
     in_text = input("Please insert your full name!\n")
+
+    # Input validation
+    # check for 2 words, separated by a whitespace
+    if len(in_text.split(" ")) != 2:
+        print("Input error!")
+        exit(-1)
+
+    # check for non alphanumeric chars, "-" and " " are permitted
+    for char in in_text:
+        if not char.isalnum():
+            if char == ' ' or char == '-':
+                continue
+            print("Input error!")
+            exit(-1)
+
     split_in_text = in_text.split(" ")
 
-    # Small input validation to make sure everything is as intended
-    if len(split_in_text) != 2:
-        print("Error in input data!")
-        return
-
-    # First name validation
+    # First name counting
     for char in split_in_text[0]:
         if char.lower() in vowels:
             first_name_vowel_count += 1
 
-    # Last name validation
+    # Last name counting
     for char in split_in_text[1]:
         if char.lower() in vowels:
             last_name_vowel_count += 1
