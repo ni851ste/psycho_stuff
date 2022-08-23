@@ -589,7 +589,28 @@ def longest_substring_with_vowel(instr):
         return ""
     else:
         return max(found_substrings, key=len)
+
+
+# Q31
+def frequent_first(instr):
+    char_count_dict = {}
+    # fill the dict
+    for char in instr:
+
+        # char not in dict
+        if char not in char_count_dict:
+            char_count_dict[char] = 1
+        # char in dict
+        else:
+            char_count_dict[char] = char_count_dict[char] + 1
+
+    # https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
+
+
+
 def main():
+    # write_to_file("test.txt", "This is a test string")
+
     # even_left_odd_right(5)
     # print(common_values([1, 2, 3], [1, 2, 3], [3, 4, 5]))
     # print(only_the_last(10, 10))
