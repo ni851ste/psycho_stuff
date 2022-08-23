@@ -262,6 +262,7 @@ def firstname_lastname():
 
 # Q17
 def basic_analysis():
+    # allowed imports: pandas, matplotlib
     # TODO datafile is missing
     return
 
@@ -442,14 +443,14 @@ def ascii_fun1(n):
 
     # half_row_index is an integer that is used to invert the algorithm after
     # the first half of the shape is drawn
-    half_row_index = int(n/2)
+    half_row_index = int(n / 2)
     # fill matrix
     for row in range(n):
         # variable for possible adjustments after inversion of the alg
         adjusted_row = row
         if row > half_row_index:
             # Inversion
-            adjusted_row = (n-1) - row
+            adjusted_row = (n - 1) - row
 
         for col in range(adjusted_row + 1):
             matrix[row][col] = True
@@ -465,10 +466,129 @@ def ascii_fun1(n):
                 out_str += " "
         out_str += "\n"
 
-    # ToDo print to file
+    write_to_file("ascii_fun1.txt", out_str)
+
+
+# Q28
+def python_power(nrows, ncols):
+    matrix = []
+
+    # Create matrix
+    for i in range(nrows):
+        matrix.append([])
+        for j in range(ncols):
+            matrix[i].append([])
+
+    max_pow_value = -1
+
+    for i in range(nrows):
+        for j in range(ncols):
+            corr_i = i + 1
+            corr_j = j + 1
+            pow_result = corr_i ** corr_j
+
+            matrix[i][j] = pow_result
+            max_pow_value = max(max_pow_value, pow_result)
+            # matrix[i][j] = str(corr_i) + " ** " + str(corr_j) + " = " + str(pow_result)
+
+    out_string = ''
+    max_result_length = len(str(max_pow_value))
+
+    for i in range(nrows):
+        for j in range(ncols):
+            corr_i = i + 1
+            corr_j = j + 1
+
+            out_string += f"{corr_i} ** {corr_j} = {matrix[i][j]:>{max_result_length}}\t\t"
+
+        out_string += "\n"
+
+    write_to_file("python_power.txt", out_string)
+
+
+# Q29
+def odd_lower_even_upper(instr):
+    # ToDo again the special case that after every whitespace the count is reset
+    #  is not mentioned
+
+    out_str = ''
+    split_instr = instr.lower().split(" ")
+
+    for word in split_instr:
+
+        char_count_dict = {}
+        # fill the dict
+        for char in word:
+            if not char.isalpha():
+                continue
+
+            # char not in dict
+            if char not in char_count_dict:
+                char_count_dict[char] = 1
+            # char in dict
+            else:
+                char_count_dict[char] = char_count_dict[char] + 1
+
+        for char in word:
+            # For whitespaces and others
+            if not char.isalpha():
+                out_str += char
+
+            # if 1-infinity = True
+            elif char_count_dict[char] % 2:
+                # Odd
+                out_str += char.lower()
+            else:
+                # Even
+                out_str += char.upper()
+
+        out_str += ' '
+
     return out_str
 
 
+# Q30
+def longest_substring_with_vowel(instr):
+    vowels = ['a', 'e', 'i', 'o', 'u']
+
+    found_substrings = []
+    current_substring = ""
+    current_substring_has_vowel = False
+
+    for char in instr:
+        # space char found
+        if char == " ":
+            if current_substring_has_vowel:
+                found_substrings.append(current_substring)
+            current_substring = ""
+            current_substring_has_vowel = False
+
+        # new char found
+        elif char not in current_substring:
+            current_substring += char
+            if char in vowels:
+                current_substring_has_vowel = True
+
+        # old char found
+        else:
+            if current_substring_has_vowel:
+                found_substrings.append(current_substring)
+            current_substring = current_substring[current_substring.find(char):]
+
+            # Reset the vowel boolean
+            current_substring_has_vowel = False
+            for substring_char in current_substring:
+                if substring_char in vowels:
+                    current_substring_has_vowel = True
+
+    if current_substring_has_vowel:
+        found_substrings.append(current_substring)
+
+
+    if len(found_substrings) == 0:
+        return ""
+    else:
+        return max(found_substrings, key=len)
 def main():
     # even_left_odd_right(5)
     # print(common_values([1, 2, 3], [1, 2, 3], [3, 4, 5]))
@@ -502,9 +622,18 @@ def main():
     # print(odd_vowels_upper("car elephant"))
 
     # print(filter_divisitors([2, 4, 6, 8], 2, 5))
-    print(ascii_fun1(23))
+    # ascii_fun1(23)
+    # python_power(3, 5)
+    # print(odd_lower_even_upper("test that"))
+    print(longest_substring_with_vowel("abcd ef"))
 
+    #frequent_first("abbccc abc")
     return
+
+
+def write_to_file(filename, string):
+    with open("outs/" + filename, "w") as file:
+        file.write(string)
 
 
 main()
