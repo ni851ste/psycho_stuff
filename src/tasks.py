@@ -263,8 +263,33 @@ def firstname_lastname():
 # Q17
 def basic_analysis():
     # allowed imports: pandas, matplotlib
-    # TODO datafile is missing
-    return
+
+    df = read_from_file_pandas("datafile.txt")
+    df = df[df['corr'] == 1]
+
+    # Sort data into the two categories
+    df_comp = df[df['compLabel'] == 'comp']
+    df_incomp = df[df['compLabel'] == 'incomp']
+
+    comp_mean_rt = df_comp['rt'].mean()
+    incomp_mean_rt = df_incomp['rt'].mean()
+
+    comp_std_rt = df_comp['rt'].std()
+    incomp_std_rt = df_incomp['rt'].std()
+
+    plt.plot(['comp_mean', 'incomp_mean', 'comp_std', 'incomp_std'],
+             [comp_mean_rt, incomp_mean_rt, comp_std_rt, incomp_std_rt],
+             'ro')
+    plt.ylabel('rt')
+    plt.xlabel('stuff')
+    plt.show()
+
+    # fig = plt.figure()
+    # ax = fig.add_axes([0, 0, 1, 1])
+    # x_ax = ['comp_mean', 'incomp_mean', 'comp_std', 'incomp_std']
+    # y_ax = [comp_mean_rt, incomp_mean_rt, comp_std_rt, incomp_std_rt]
+    # ax.bar(x_ax, y_ax)
+    # plt.show()
 
 
 # Q18
@@ -583,7 +608,6 @@ def longest_substring_with_vowel(instr):
 
     if current_substring_has_vowel:
         found_substrings.append(current_substring)
-
 
     if len(found_substrings) == 0:
         return ""
