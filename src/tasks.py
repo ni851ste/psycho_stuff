@@ -1,5 +1,12 @@
+import random
+
 import numpy as np
 import random as rand
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# ToDo delete this, used for timing of Q36
+import time
 
 
 # Q1
@@ -618,23 +625,106 @@ def longest_substring_with_vowel(instr):
 # Q31
 def frequent_first(instr):
     char_count_dict = {}
+    out_str = ""
     # fill the dict
     for char in instr:
+        # if word is over
+        if char == ' ':
+            # sort dict
+            sorted_keys = sorted(char_count_dict, key=char_count_dict.get, reverse=True)
+            sorted_dict = {}
+            for key in sorted_keys:
+                sorted_dict[key] = char_count_dict[key]
+            # append key for each value count once
+            for k, v in sorted_dict.items():
+                for i in range(v):
+                    out_str += k
+
+            out_str += ' '
+            # reset dict
+            char_count_dict = {}
 
         # char not in dict
-        if char not in char_count_dict:
+        elif char not in char_count_dict:
             char_count_dict[char] = 1
         # char in dict
         else:
             char_count_dict[char] = char_count_dict[char] + 1
 
-    # https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
+    # sort dict
+    sorted_keys = sorted(char_count_dict, key=char_count_dict.get, reverse=True)
+    sorted_dict = {}
+    for key in sorted_keys:
+        sorted_dict[key] = char_count_dict[key]
+    # append key for each value count once
+    for k, v in sorted_dict.items():
+        for i in range(v):
+            out_str += k
+
+    return out_str
 
 
+# Q32
+def largest_jump(inlst):
+    # Allowed imports numpy - not used though
+    biggest_jump = -1
+    biggest_jump_index = -1
+    for i in range(len(inlst) - 1):
+        if abs(inlst[i] - inlst[i + 1]) > biggest_jump:
+            biggest_jump = abs(inlst[i] - inlst[i + 1])
+            biggest_jump_index = i
+
+    return biggest_jump_index, biggest_jump
+
+
+# Q33
+def my_sum(inlst):
+    exclude_some = False
+    min_odd = -1
+    max_odd = -1
+
+    # check weather there are more than 3 unique items in list
+    if len(list(set(inlst))) >= 3:
+        exclude_some = True
+        min_odd = min(filter(lambda e: e % 2 == 1, inlst))
+        max_odd = max(filter(lambda e: e % 2 == 1, inlst))
+
+    out_sum = 0
+
+    for e in inlst:
+        if exclude_some and (e == min_odd or e == max_odd):
+            continue
+        else:
+            out_sum += e
+
+    return out_sum
+
+
+# Q34
+def remove_repeats(inlst):
+    current_e = None
+    out_lst = []
+
+    for e in inlst:
+        if e == current_e:
+            continue
+        else:
+            out_lst.append(e)
+            current_e = e
+
+    return out_lst
+
+
+# Q35
+def my_middle(inlst):
+    sorted_lst = sorted(inlst)
+    mid_val = sorted_lst[int(len(inlst) / 2)]
+
+    for i in range(len(inlst)):
+        if inlst[i] == mid_val:
+            return mid_val, i
 
 def main():
-    # write_to_file("test.txt", "This is a test string")
-
     # even_left_odd_right(5)
     # print(common_values([1, 2, 3], [1, 2, 3], [3, 4, 5]))
     # print(only_the_last(10, 10))
@@ -654,7 +744,6 @@ def main():
     # mean_rt_er([500, 600, 700], [1, 0, 0])
 
     # print(firstname_lastname())
-    # TODO basic analysis needs to be implemented
     # basic_analysis()
     # print(shuffle_me(["A", "B", "C", "D", "E"]))
     # print(repeated_letter("a bc def ghij"))
@@ -670,15 +759,30 @@ def main():
     # ascii_fun1(23)
     # python_power(3, 5)
     # print(odd_lower_even_upper("test that"))
-    print(longest_substring_with_vowel("abcd ef"))
+    # print(longest_substring_with_vowel("abcddqwrtz"))
 
-    #frequent_first("abbccc abc")
-    return
+    # print(frequent_first("abbccc abcb"))
+    # print(largest_jump([1, 2, 3, -6, 7, 8]))
+    # print(my_sum([1, 2, 4]))
+    # print(remove_repeats([1, 1, 2, 2, 3, 3, 3, 4]))
+    # print(my_middle([100, -1, 9]))
 
 
 def write_to_file(filename, string):
     with open("outs/" + filename, "w") as file:
         file.write(string)
+
+
+def read_from_file(filename, separator="\t", skip_first_line_amount=0):
+    lines = []
+    with open("examples/" + filename) as file:
+        for line in file.readlines()[skip_first_line_amount:]:
+            lines.append(line.split(separator))
+    return lines
+
+
+def read_from_file_pandas(filename, separator="\t", skip_first_line_amount=0):
+    return pd.read_csv(f'examples/{filename}', sep=separator)
 
 
 main()
